@@ -68,9 +68,11 @@ linux:!android {
 
 
 SOURCES += main.cpp \
-    yaprogramversion.cpp
+    yaprogramversion.cpp \
+    yaimagemagick7test.cpp
 RESOURCES += \
     resources.qrc
 
 HEADERS += \
-    yaprogramversion.h
+    yaprogramversion.h \
+    yaimagemagick7test.h
