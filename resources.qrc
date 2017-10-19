@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>res/lena_hires.jpg</file>
+        <file>program_version.txt</file>
     </qresource>
 </RCC>
