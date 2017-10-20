@@ -9,6 +9,6 @@ Image Magick 7 Test for Android/PC
 
 ## Tested
 | Qt/Target    | Android/armv7 |  Android/x86  | PC/LinuxAMD64|
-|--------------|:--------------|:-------------:|--------------|
+|--------------|:-------------:|:-------------:|:------------:|
 | Qt 5.9.2     | OK            | OK            | OK           |
-| 5.10 alpha   | bug in Qt     | bug in Qt     |              |
+| 5.10 alpha   | bug in Qt     | bug in Qt     | OK           |
