@@ -17,6 +17,12 @@ public:
 signals:
 
 public slots:
+
+private:
+    QString     _testImagePath;
+    quint32     _numOfOmpThreads;
+    int         _testResult; //in msec
+
 };
 
 #endif // YAIMAGEMAGICK7TEST_H

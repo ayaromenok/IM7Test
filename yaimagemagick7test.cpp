@@ -79,6 +79,57 @@ YaImageMagick7Test::removeResources()
 bool
 YaImageMagick7Test::testCore()
 {
+    QString pathRW(_testImagePath);
+    QFile file(_testImagePath);
+    if (file.exists()) {
+    Image *image,*imagew;
+    ImageInfo *read_info;
+    ImageInfo *write_info;
+    ExceptionInfo *exception;
+    MagickBooleanType status;
+
+    MagickCoreGenesis((char *) NULL,MagickFalse);
+
+    exception = AcquireExceptionInfo();
+
+    read_info=CloneImageInfo(NULL);
+    CopyMagickString(read_info->filename, pathRW.toLatin1().constData(),
+                     MaxTextExtent);
+    image = ReadImage(read_info,exception);
+
+    pathRW.replace(".png","_Core.png");
+    QFile file(pathRW);
+    if (file.exists())
+        file.remove();      //remove from previous iteration
+
+    qDebug() << "MagickCore/rotate\t" << image->columns << "x" << image->rows
+             << "image at\t" << pathRW;
+
+    QTime t;
+    t.start();
+    imagew = IntegralRotateImage(image,1,exception);
+    _testResult = t.elapsed();
+
+    qDebug() << "\nresult:" << _testResult << "msec\n";
+
+    write_info=CloneImageInfo(read_info);
+    CopyMagickString(write_info->filename, pathRW.toLatin1().constData(),
+                     MaxTextExtent);
+    status=WriteImages(write_info, imagew, write_info->filename,exception);
+
+    DestroyImage(imagew);
+    DestroyImageInfo(write_info);
+    DestroyImage(image);
+    DestroyImageInfo(read_info);
+
+    DestroyExceptionInfo(exception);
+
+    MagickCoreTerminus();
+    }
+    else {
+        qCritical() << "test resources missed";
+        return false;
+    }
 
     return true;
 }
