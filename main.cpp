@@ -12,8 +12,10 @@ int main(int argc, char *argv[])
     pv.toConsole(false);
 
     YaImageMagick7Test imt;
+    imt.getResources();
     imt.testCore();
     imt.testWand();
+    imt.removeResources();
 
     return a.exec();
 }
