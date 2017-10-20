@@ -96,13 +96,14 @@ YaImageMagick7Test::testCore()
     CopyMagickString(read_info->filename, pathRW.toLatin1().constData(),
                      MaxTextExtent);
     image = ReadImage(read_info,exception);
-
+    _imgWidth = image->columns;
+    _imgHeight = image->rows;
     pathRW.replace(".png","_Core.png");
     QFile file(pathRW);
     if (file.exists())
         file.remove();      //remove from previous iteration
 
-    qDebug() << "MagickCore/rotate\t" << image->columns << "x" << image->rows
+    qDebug() << "MagickCore/rotate\t" << _imgWidth << "x" << _imgHeight
              << "image at\t" << pathRW;
 
     QTime t;
@@ -137,11 +138,41 @@ YaImageMagick7Test::testCore()
 bool
 YaImageMagick7Test::testWand()
 {
-    MagickWand *magickWand;
+    QString pathRW(_testImagePath);
+
+    MagickBooleanType status;
+    MagickWand *magick_wand;
+    PixelWand *background = NewPixelWand();
+    Image *imagew;
+
     MagickWandGenesis();
-    magickWand = NewMagickWand();
-    qDebug() << "magickWand is OK";
-    magickWand = DestroyMagickWand(magickWand);
+
+    magick_wand = NewMagickWand();
+    status = MagickReadImage(magick_wand,pathRW.toLatin1());
+    if (status == MagickFalse)
+        qDebug() <<"wrong";
+
+    pathRW.replace(".png","_Wand.png");
+    QFile file(pathRW);
+    if (file.exists())
+        file.remove();      //remove from previous iteration
+
+    qDebug() << "MagickWand/rotate\t" << _imgWidth << "x" << _imgHeight
+             << "image at\t" << pathRW;
+
+    QTime t;
+    t.start();
+    MagickRotateImage(magick_wand,background,90);
+    _testResult = t.elapsed();
+    qDebug() << "\nresult:"<<_testResult << "msec\t";
+
+    status = MagickWriteImage(magick_wand,pathRW.toLatin1());
+    if (status == MagickFalse)
+        qDebug() <<"wrong again";
+
+    background = DestroyPixelWand(background);
+    magick_wand = DestroyMagickWand(magick_wand);
+
     MagickWandTerminus();
     return true;
 }

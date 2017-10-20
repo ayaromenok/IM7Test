@@ -22,7 +22,8 @@ private:
     QString     _testImagePath;
     quint32     _numOfOmpThreads;
     int         _testResult; //in msec
-
+    quint32     _imgWidth;
+    quint32     _imgHeight;
 };
 
 #endif // YAIMAGEMAGICK7TEST_H
