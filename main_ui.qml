@@ -2,12 +2,26 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtWebView 1.1
+import MagickTest 1.0
 
 ApplicationWindow {
     visible: true
     width: 360
     height: 640
-    title: qsTr("Hello World")
+    title: qsTr("ImageMagick7 for Andoid - Test")
+
+    MTest{
+        id: mTest
+    }
+
+    function fnTestAll(){
+        console.log("fnTestAll()");
+        lbOmpAutoRes.text = mTest.testOmpAuto;
+        lbOmpOneThreadRes.text = mTest.testOmpOne;
+        lbOmpTwoThreadRes.text = mTest.testOmpTwo;
+        lbOmpFourThreadRes.text = mTest.testOmpFour;
+        lbOmpEightThreadRes.text = mTest.testOmpEight;
+    }
 
     SwipeView {
         id: swipeView
@@ -104,6 +118,7 @@ ApplicationWindow {
                     text: qsTr("Run all tests")
                     Layout.alignment: Qt.AlignHCenter
                     Layout.preferredWidth: 280
+                    onClicked: fnTestAll()
                 }
             }
 

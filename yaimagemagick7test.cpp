@@ -176,3 +176,42 @@ YaImageMagick7Test::testWand()
     MagickWandTerminus();
     return true;
 }
+
+
+void
+YaImageMagick7Test::runOmpAuto()
+{
+    qDebug() << "runOmpAuto()";
+    _resultOmpAuto = 1248;
+}
+
+
+void
+YaImageMagick7Test::runOmpOne()
+{
+    qDebug() << "runOmpOne()";
+    _resultOmpOne = 10;
+}
+
+
+void
+YaImageMagick7Test::runOmpTwo()
+{
+    qDebug() << "runOmpTwo()";
+    _resultOmpTwo = 20;
+}
+
+
+void
+YaImageMagick7Test::runOmpFour()
+{
+    qDebug() << "runOmpFour()";
+    _resultOmpFour = 40;
+}
+
+void
+YaImageMagick7Test::runOmpEight()
+{
+    qDebug() << "runOmpEight()";
+    _resultOmpEight = 80;
+}
