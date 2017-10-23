@@ -34,11 +34,28 @@ YaImageMagick7Test::getResources()
         _testImagePath.append(dir.currentPath());
         _testImagePath.append("/");
         _testImagePath.append(testImageName);
+        file.close();
         file.setFileName(_testImagePath);
         if (file.exists()) {
             qDebug() << "test image extracted to" << _testImagePath;
         } else {
             qCritical() << "can't extract test image" << testImageName;
+        }
+    }
+    QFile       fileInfo(":/IM7TestInfo.html");
+    if (fileInfo.open(QIODevice::ReadOnly)){
+        fileInfo.copy(QString("./IM7TestInfo.html"));
+        fileInfo.close();
+
+        QString fileInfoPath(dir.currentPath());
+        fileInfoPath.append("/");
+        fileInfoPath.append("IM7TestInfo.html");
+        fileInfo.setFileName(fileInfoPath);
+        if (fileInfo.exists()){
+
+            qDebug() << "fileInfo is OK" << fileInfo.fileName();
+        } else {
+            qDebug() << "missed fileInfo" << fileInfo.fileName() ;
         }
     }
 }

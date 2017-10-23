@@ -1,5 +1,5 @@
-QT = quick
-
+QT += quick
+QT += webview
 TARGET = IM7TestUI
 
 DEFINES += GIT_VERSION=\\\"$$system(git describe --tags > $$PWD/program_version.txt)\\\"

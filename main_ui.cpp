@@ -1,4 +1,5 @@
 #include <QGuiApplication>
+#include <QtWebView>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
 #include <QDebug>
@@ -10,6 +11,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+    QtWebView::initialize();
 
     //qmlRegisterType<YaImageMagick7Test> ("MagickTest", 1, 0, "MTest");
     qDebug() << "ImageMagick 7 test app/GUI";
