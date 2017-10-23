@@ -28,22 +28,15 @@ signals:
     void testOmpEightChanged(QVariant result);
 
 public slots:
-    int testOmpAuto(){runOmpAuto(); return _resultOmpAuto;}
-    int testOmpOne(){runOmpOne(); return _resultOmpOne;}
-    int testOmpTwo(){runOmpTwo(); return _resultOmpTwo;}
-    int testOmpFour(){runOmpFour(); return _resultOmpFour;}
-    int testOmpEight(){runOmpEight(); return _resultOmpEight;}
+    int testOmpAuto(){return _resultOmpAuto;}
+    int testOmpOne(){return _resultOmpOne;}
+    int testOmpTwo(){return _resultOmpTwo;}
+    int testOmpFour(){return _resultOmpFour;}
+    int testOmpEight(){ return _resultOmpEight;}
     void testOmpAll(QString value);
     void threadTest(QString result);
 
 private:
-    void        runOmpAuto();
-    void        runOmpOne();
-    void        runOmpTwo();
-    void        runOmpFour();
-    void        runOmpEight();
-
-    void        sleep(int msec);
     QString     _testImagePath;
     quint32     _numOfOmpThreads;
     int         _testResult; //in msec
