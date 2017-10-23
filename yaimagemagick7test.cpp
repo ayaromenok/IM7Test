@@ -193,6 +193,7 @@ YaImageMagick7Test::testOmpAll(QString value)
     connect(workerThread, &YaOpenMPThread::finished,
             workerThread, &QObject::deleteLater);
 
+    workerThread->setTestImage(_testImagePath);
     workerThread->setOpenMP(value);
     workerThread->start();
 }

@@ -18,10 +18,11 @@ int main(int argc, char *argv[])
 //    pv.toConsole(false);
 
     YaImageMagick7Test imt;
-//    imt.getResources();
-//    imt.testCore();
-//    imt.testWand();
+    imt.getResources();
+    imt.testCore();
+    imt.testWand();
 //    imt.removeResources();
+
     QQmlApplicationEngine engine;
     engine.load(QUrl(QLatin1String("qrc:/main_ui.qml")));
     if (engine.rootObjects().isEmpty())

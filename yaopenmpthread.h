@@ -10,12 +10,19 @@ class YaOpenMPThread : public QThread
     void run() override;
 public:
     void setOpenMP(QString value);
+    void setTestImage(QString path){_testImage.clear(); _testImage.append(path);}
 
 signals:
     void resultReady(const QString &s);
 private:
+    int runTestOMP(int numOfThreads);
+
     QString     _omp;
     QStringList _ompList;
+    QString     _testImage;
+    int         _result;
+    int         _numOfThreads;
+
 };
 
 #endif // YAOPENMPTHREAD_H
