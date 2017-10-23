@@ -40,6 +40,7 @@ private:
     void        runOmpFour();
     void        runOmpEight();
 
+    void        sleep(int msec);
     QString     _testImagePath;
     quint32     _numOfOmpThreads;
     int         _testResult; //in msec

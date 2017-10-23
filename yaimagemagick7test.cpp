@@ -182,6 +182,7 @@ void
 YaImageMagick7Test::runOmpAuto()
 {
     qDebug() << "runOmpAuto()";
+    sleep(2000);
     _resultOmpAuto = 1248;
 }
 
@@ -190,6 +191,7 @@ void
 YaImageMagick7Test::runOmpOne()
 {
     qDebug() << "runOmpOne()";
+    sleep(1000);
     _resultOmpOne = 10;
 }
 
@@ -198,6 +200,7 @@ void
 YaImageMagick7Test::runOmpTwo()
 {
     qDebug() << "runOmpTwo()";
+    sleep(2000);
     _resultOmpTwo = 20;
 }
 
@@ -206,6 +209,7 @@ void
 YaImageMagick7Test::runOmpFour()
 {
     qDebug() << "runOmpFour()";
+    sleep(4000);
     _resultOmpFour = 40;
 }
 
@@ -213,5 +217,19 @@ void
 YaImageMagick7Test::runOmpEight()
 {
     qDebug() << "runOmpEight()";
+    sleep(8000);
     _resultOmpEight = 80;
+}
+
+void
+YaImageMagick7Test::sleep(int msec)
+{
+#ifdef Q_OS_WIN
+    //#include <windows.h>
+    //Sleep(uint(msec));
+    qCritical() << "sleep not work under windows for now, uncomment code above";
+#else
+    struct timespec ts = { msec / 1000, (msec % 1000) * 1000 * 1000 };
+    nanosleep(&ts, NULL);
+#endif
 }
