@@ -12,11 +12,8 @@ YaOpenMPThread::run()
 {
     QString result("res");
     QStringList ompList(_omp.split(' '));
-//    int msec = 500;
-//    struct timespec ts = { msec / 1000, (msec % 1000) * 1000 * 1000 };
     for (int i=0; i<ompList.length(); i++){
         result.clear();
-//        nanosleep(&ts, NULL);
         int k = ompList.at(i).toInt();
         _result = runTestOMP(k);
         result.append(ompList.at(i));
@@ -87,12 +84,10 @@ YaOpenMPThread::runTestOMP(int numOfThreads)
                      MaxTextExtent);
     status=WriteImages(write_info, imagew, write_info->filename,exception);
 
-    \
     qDebug() << "OpenMP/distort\t" << imagew->columns << "x" << imagew->rows
              << "image at\t" << _result << "msec\t"<< "threads" << numOfThreads;
 
-
-    //delete m_lensArguments;
+    delete m_lensArguments;
 
     DestroyImage(imagew);
     DestroyImageInfo(write_info);

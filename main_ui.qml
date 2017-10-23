@@ -40,6 +40,11 @@ ApplicationWindow {
 
     function fnTestAll(){
         console.log("fnTestAll()");
+        lbOmpAutoRes.text = "0"
+        lbOmpOneThreadRes.text = "0"
+        lbOmpTwoThreadRes.text = "0"
+        lbOmpFourThreadRes.text = "0"
+        lbOmpEightThreadRes.text = "0"
         busyInd.running = true;
         sigTestAll("0 1 2 4 8")
     }

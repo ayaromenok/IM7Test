@@ -71,8 +71,7 @@ SOURCES += main_ui.cpp \
     yaopenmpthread.cpp
 
 RESOURCES += \
-    resources.qrc \
-    resui.qrc
+    resources.qrc
 
 HEADERS += \
     yaprogramversion.h \

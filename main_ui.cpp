@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 
     YaImageMagick7Test imt;
     imt.getResources();
-    imt.testCore();
-    imt.testWand();
+//    imt.testCore();
+//    imt.testWand();
 //    imt.removeResources();
 
     QQmlApplicationEngine engine;
