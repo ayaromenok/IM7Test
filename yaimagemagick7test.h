@@ -2,6 +2,7 @@
 #define YAIMAGEMAGICK7TEST_H
 
 #include <QObject>
+#include <QVariant>
 
 class YaImageMagick7Test : public QObject
 {
@@ -19,19 +20,21 @@ public:
     bool testCore();
     bool testWand();
 
+signals:
+    void testOmpAutoChanged(QVariant result);
+    void testOmpOneChanged(QVariant result);
+    void testOmpTwoChanged(QVariant result);
+    void testOmpFourChanged(QVariant result);
+    void testOmpEightChanged(QVariant result);
+
+public slots:
     int testOmpAuto(){runOmpAuto(); return _resultOmpAuto;}
     int testOmpOne(){runOmpOne(); return _resultOmpOne;}
     int testOmpTwo(){runOmpTwo(); return _resultOmpTwo;}
     int testOmpFour(){runOmpFour(); return _resultOmpFour;}
     int testOmpEight(){runOmpEight(); return _resultOmpEight;}
-
-signals:
-    void testOmpAutoChanged();
-    void testOmpOneChanged();
-    void testOmpTwoChanged();
-    void testOmpFourChanged();
-    void testOmpEightChanged();
-public slots:
+    void testOmpAll(QString value);
+    void threadTest(QString result);
 
 private:
     void        runOmpAuto();
@@ -51,6 +54,8 @@ private:
     int         _resultOmpTwo;
     int         _resultOmpFour;
     int         _resultOmpEight;
+
+    QString     _omp;
 };
 
 #endif // YAIMAGEMAGICK7TEST_H

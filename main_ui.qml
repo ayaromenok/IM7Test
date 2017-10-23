@@ -2,7 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtWebView 1.1
-import MagickTest 1.0
+//import MagickTest 1.0
 
 ApplicationWindow {
     visible: true
@@ -10,17 +10,38 @@ ApplicationWindow {
     height: 640
     title: qsTr("ImageMagick7 for Andoid - Test")
 
-    MTest{
-        id: mTest
+    signal sigTestAll(string value)
+
+    function fnTestOmpAuto(result){
+        console.log("OmpAuto:" + result)
+        lbOmpAutoRes.text = result
+    }
+
+    function fnTestOmpOne(result){
+        console.log("OmpOne:" + result)
+        lbOmpOneThreadRes.text = result
+    }
+
+    function fnTestOmpTwo(result){
+        console.log("OmpTwo:" + result)
+        lbOmpTwoThreadRes.text = result
+    }
+
+    function fnTestOmpFour(result){
+        console.log("OmpFour:" + result)
+        lbOmpFourThreadRes.text = result
+    }
+
+    function fnTestOmpEight(result){
+        console.log("OmpEight" + result)
+        lbOmpEightThreadRes.text = result
+        busyInd.running = false;
     }
 
     function fnTestAll(){
         console.log("fnTestAll()");
-        lbOmpAutoRes.text = mTest.testOmpAuto;
-        lbOmpOneThreadRes.text = mTest.testOmpOne;
-        lbOmpTwoThreadRes.text = mTest.testOmpTwo;
-        lbOmpFourThreadRes.text = mTest.testOmpFour;
-        lbOmpEightThreadRes.text = mTest.testOmpEight;
+        busyInd.running = true;
+        sigTestAll("0 1 2 4 8")
     }
 
     SwipeView {
@@ -110,6 +131,12 @@ ApplicationWindow {
                         text: qsTr("0")
                     }
                 }
+                BusyIndicator{
+                    id: busyInd;
+                    Layout.alignment: Qt.AlignHCenter
+                    running: false
+                }
+
                 Rectangle{
                     Layout.fillHeight: true
                 }
@@ -118,7 +145,7 @@ ApplicationWindow {
                     text: qsTr("Run all tests")
                     Layout.alignment: Qt.AlignHCenter
                     Layout.preferredWidth: 280
-                    onClicked: fnTestAll()
+                    onClicked:fnTestAll()
                 }
             }
 
@@ -126,10 +153,6 @@ ApplicationWindow {
         }
 
         Page {
-//            Text {
-//                text: qsTr("ImageMagick 7 for Android")
-//                anchors.centerIn: parent
-//            }
             WebView {
                     anchors.fill: parent
                     url: "qrc:/IM7TestInfo.html"

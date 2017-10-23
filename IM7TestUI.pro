@@ -67,7 +67,8 @@ linux:!android {
 
 SOURCES += main_ui.cpp \
     yaprogramversion.cpp \
-    yaimagemagick7test.cpp
+    yaimagemagick7test.cpp \
+    yaopenmpthread.cpp
 
 RESOURCES += \
     resources.qrc \
@@ -75,4 +76,5 @@ RESOURCES += \
 
 HEADERS += \
     yaprogramversion.h \
-    yaimagemagick7test.h
+    yaimagemagick7test.h \
+    yaopenmpthread.h

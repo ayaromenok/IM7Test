@@ -1,12 +1,14 @@
-#include "yaimagemagick7test.h"
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QTime>
+#include <QThread>
 
 #include <MagickCore/MagickCore.h>
 #include <MagickWand/MagickWand.h>
 
+#include "yaimagemagick7test.h"
+#include "yaopenmpthread.h"
 
 YaImageMagick7Test::YaImageMagick7Test(QObject *parent) : QObject(parent)
 {
@@ -182,8 +184,9 @@ void
 YaImageMagick7Test::runOmpAuto()
 {
     qDebug() << "runOmpAuto()";
-    sleep(2000);
+    sleep(1000);
     _resultOmpAuto = 1248;
+    emit testOmpAutoChanged(_resultOmpAuto);
 }
 
 
@@ -191,8 +194,9 @@ void
 YaImageMagick7Test::runOmpOne()
 {
     qDebug() << "runOmpOne()";
-    sleep(1000);
+    sleep(3000);
     _resultOmpOne = 10;
+    emit testOmpOneChanged(_resultOmpOne);
 }
 
 
@@ -232,4 +236,41 @@ YaImageMagick7Test::sleep(int msec)
     struct timespec ts = { msec / 1000, (msec % 1000) * 1000 * 1000 };
     nanosleep(&ts, NULL);
 #endif
+}
+
+
+
+void
+YaImageMagick7Test::testOmpAll(QString value)
+{
+    _omp = value;
+    QStringList strTest(value.split(' '));
+    qDebug() << "testOmpAll" << strTest;
+
+    YaOpenMPThread *workerThread = new YaOpenMPThread();
+    connect(workerThread, &YaOpenMPThread::resultReady,
+            this, &YaImageMagick7Test::threadTest);
+    connect(workerThread, &YaOpenMPThread::finished,
+            workerThread, &QObject::deleteLater);
+
+    workerThread->setOpenMP(value);
+    workerThread->start();
+}
+
+void
+YaImageMagick7Test::threadTest(QString result)
+{
+    qDebug() << "thread test result" << result;
+    QStringList resList(result.split(' '));
+
+    if (resList.at(0).contains("0"))
+        emit testOmpAutoChanged(resList.at(1));
+    if (resList.at(0).contains("1"))
+         emit testOmpOneChanged(resList.at(1));
+    if (resList.at(0).contains("2"))
+         emit testOmpTwoChanged(resList.at(1));
+    if (resList.at(0).contains("4"))
+         emit testOmpFourChanged(resList.at(1));
+    if (resList.at(0).contains("8"))
+         emit testOmpEightChanged(resList.at(1));
 }
