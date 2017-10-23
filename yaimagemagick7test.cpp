@@ -1,12 +1,14 @@
-#include "yaimagemagick7test.h"
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QTime>
+#include <QThread>
 
 #include <MagickCore/MagickCore.h>
 #include <MagickWand/MagickWand.h>
 
+#include "yaimagemagick7test.h"
+#include "yaopenmpthread.h"
 
 YaImageMagick7Test::YaImageMagick7Test(QObject *parent) : QObject(parent)
 {
@@ -175,4 +177,40 @@ YaImageMagick7Test::testWand()
 
     MagickWandTerminus();
     return true;
+}
+
+
+void
+YaImageMagick7Test::testOmpAll(QString value)
+{
+    _omp = value;
+    QStringList strTest(value.split(' '));
+    qDebug() << "testOmpAll" << strTest;
+
+    YaOpenMPThread *workerThread = new YaOpenMPThread();
+    connect(workerThread, &YaOpenMPThread::resultReady,
+            this, &YaImageMagick7Test::threadTest);
+    connect(workerThread, &YaOpenMPThread::finished,
+            workerThread, &QObject::deleteLater);
+
+    workerThread->setOpenMP(value);
+    workerThread->start();
+}
+
+void
+YaImageMagick7Test::threadTest(QString result)
+{
+    qDebug() << "thread test result" << result;
+    QStringList resList(result.split(' '));
+
+    if (resList.at(0).contains("0"))
+        emit testOmpAutoChanged(resList.at(1));
+    if (resList.at(0).contains("1"))
+         emit testOmpOneChanged(resList.at(1));
+    if (resList.at(0).contains("2"))
+         emit testOmpTwoChanged(resList.at(1));
+    if (resList.at(0).contains("4"))
+         emit testOmpFourChanged(resList.at(1));
+    if (resList.at(0).contains("8"))
+         emit testOmpEightChanged(resList.at(1));
 }

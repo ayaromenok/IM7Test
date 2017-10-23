@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+        <file>IM7TestInfo.html</file>
+        <file>main_ui.qml</file>
+    </qresource>
+</RCC>
