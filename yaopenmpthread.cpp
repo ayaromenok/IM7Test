@@ -46,7 +46,6 @@ YaOpenMPThread::runTestOMP(int numOfThreads)
     Image *image,*imagew;
     ImageInfo *read_info;
     ExceptionInfo *exception;
-    MagickBooleanType status;
 
     double*         m_lensArguments;
     m_lensArguments = (double *) AcquireQuantumMemory(3,sizeof(*m_lensArguments));
@@ -72,6 +71,8 @@ YaOpenMPThread::runTestOMP(int numOfThreads)
 
     if (_isWriteToFile) {
         ImageInfo *write_info;
+        MagickBooleanType status;
+
         newName.append(QString::number(numOfThreads));
         newName.append(".png");
         pathRW.replace(".png",newName);
