@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>program_version.txt</file>
-        <file>res/lena_hires.png</file>
         <file>qtquickcontrols2.conf</file>
         <file>IM7TestInfo.html</file>
         <file>main_ui.qml</file>
+        <file>res/lena_hires.jpg</file>
     </qresource>
 </RCC>
