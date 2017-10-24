@@ -35,6 +35,8 @@ public slots:
     int testOmpEight(){ return _resultOmpEight;}
     void testOmpAll(QString value);
     void threadTest(QString result);
+    void setWriteToFile(bool value) {_isWriteToFile = value;}
+
 
 private:
     QString     _testImagePath;
@@ -49,6 +51,7 @@ private:
     int         _resultOmpEight;
 
     QString     _omp;
+    bool        _isWriteToFile;
 };
 
 #endif // YAIMAGEMAGICK7TEST_H

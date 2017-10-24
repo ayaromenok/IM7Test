@@ -20,7 +20,9 @@ int main(int argc, char *argv[])
 //    pv.toConsole(false);
 
     YaImageMagick7Test imt;
+    imt.setWriteToFile(false); //to increase user behavior on sys with slow I/O
     imt.getResources();
+    ///\todo connect to UI on ver 0.3.0
 //    imt.testCore();
 //    imt.testWand();
 //    imt.removeResources();

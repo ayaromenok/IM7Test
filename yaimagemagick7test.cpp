@@ -13,6 +13,7 @@
 YaImageMagick7Test::YaImageMagick7Test(QObject *parent) : QObject(parent)
 {
     _numOfOmpThreads = 0;
+    _isWriteToFile = false;
 }
 
 YaImageMagick7Test::~YaImageMagick7Test()
@@ -103,9 +104,7 @@ YaImageMagick7Test::testCore()
     if (file.exists()) {
     Image *image,*imagew;
     ImageInfo *read_info;
-    ImageInfo *write_info;
     ExceptionInfo *exception;
-    MagickBooleanType status;
 
     MagickCoreGenesis((char *) NULL,MagickFalse);
 
@@ -117,13 +116,6 @@ YaImageMagick7Test::testCore()
     image = ReadImage(read_info,exception);
     _imgWidth = image->columns;
     _imgHeight = image->rows;
-    pathRW.replace(".png","_Core.png");
-    QFile file(pathRW);
-    if (file.exists())
-        file.remove();      //remove from previous iteration
-
-    qDebug() << "MagickCore/rotate\t" << _imgWidth << "x" << _imgHeight
-             << "image at\t" << pathRW;
 
     QTime t;
     t.start();
@@ -131,14 +123,27 @@ YaImageMagick7Test::testCore()
     _testResult = t.elapsed();
 
     qDebug() << "\nresult:" << _testResult << "msec\n";
+    if (_isWriteToFile) {
+        ImageInfo *write_info;
+        MagickBooleanType status;
 
-    write_info=CloneImageInfo(read_info);
-    CopyMagickString(write_info->filename, pathRW.toLatin1().constData(),
-                     MaxTextExtent);
-    status=WriteImages(write_info, imagew, write_info->filename,exception);
+        pathRW.replace(".png","_Core.png");
+        QFile file(pathRW);
+        if (file.exists())
+            file.remove();      //remove from previous iteration
+
+        qDebug() << "MagickCore/rotate\t" << _imgWidth << "x" << _imgHeight
+                 << "image at\t" << pathRW;
+
+        write_info=CloneImageInfo(read_info);
+        CopyMagickString(write_info->filename, pathRW.toLatin1().constData(),
+                         MaxTextExtent);
+        status=WriteImages(write_info, imagew, write_info->filename,exception);
+        DestroyImageInfo(write_info);
+    }
 
     DestroyImage(imagew);
-    DestroyImageInfo(write_info);
+
     DestroyImage(image);
     DestroyImageInfo(read_info);
 
@@ -158,11 +163,9 @@ bool
 YaImageMagick7Test::testWand()
 {
     QString pathRW(_testImagePath);
-
-    MagickBooleanType status;
     MagickWand *magick_wand;
     PixelWand *background = NewPixelWand();
-    Image *imagew;
+    MagickBooleanType status;
 
     MagickWandGenesis();
 
@@ -184,11 +187,12 @@ YaImageMagick7Test::testWand()
     MagickRotateImage(magick_wand,background,90);
     _testResult = t.elapsed();
     qDebug() << "\nresult:"<<_testResult << "msec\t";
+    if (_isWriteToFile) {
 
-    status = MagickWriteImage(magick_wand,pathRW.toLatin1());
-    if (status == MagickFalse)
-        qDebug() <<"wrong again";
-
+        status = MagickWriteImage(magick_wand,pathRW.toLatin1());
+        if (status == MagickFalse)
+            qDebug() <<"wrong again";
+    }
     background = DestroyPixelWand(background);
     magick_wand = DestroyMagickWand(magick_wand);
 
@@ -212,7 +216,7 @@ YaImageMagick7Test::testOmpAll(QString value)
 
     workerThread->setTestImage(_testImagePath);
     workerThread->setOpenMP(value);
-    workerThread->setWriteToFile(false);
+    workerThread->setWriteToFile(_isWriteToFile);
     workerThread->start();
 }
 
