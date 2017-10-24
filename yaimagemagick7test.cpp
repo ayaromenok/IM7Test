@@ -212,6 +212,7 @@ YaImageMagick7Test::testOmpAll(QString value)
 
     workerThread->setTestImage(_testImagePath);
     workerThread->setOpenMP(value);
+    workerThread->setWriteToFile(false);
     workerThread->start();
 }
 

@@ -45,7 +45,6 @@ YaOpenMPThread::runTestOMP(int numOfThreads)
 
     Image *image,*imagew;
     ImageInfo *read_info;
-    ImageInfo *write_info;
     ExceptionInfo *exception;
     MagickBooleanType status;
 
@@ -71,26 +70,28 @@ YaOpenMPThread::runTestOMP(int numOfThreads)
                           exception);
     _result = t.elapsed();
 
+    if (_isWriteToFile) {
+        ImageInfo *write_info;
+        newName.append(QString::number(numOfThreads));
+        newName.append(".png");
+        pathRW.replace(".png",newName);
+        QFile file(pathRW);
+        if (file.exists())
+            file.remove();      //remove from previous iteration
 
-    newName.append(QString::number(numOfThreads));
-    newName.append(".png");
-    pathRW.replace(".png",newName);
-    QFile file(pathRW);
-    if (file.exists())
-        file.remove();      //remove from previous iteration
-
-    write_info=CloneImageInfo(read_info);
-    CopyMagickString(write_info->filename, pathRW.toLatin1().constData(),
-                     MaxTextExtent);
-    status=WriteImages(write_info, imagew, write_info->filename,exception);
-
+        write_info=CloneImageInfo(read_info);
+        CopyMagickString(write_info->filename, pathRW.toLatin1().constData(),
+                         MaxTextExtent);
+        status=WriteImages(write_info, imagew, write_info->filename,exception);
+        DestroyImageInfo(write_info);
+    }
     qDebug() << "OpenMP/distort\t" << imagew->columns << "x" << imagew->rows
              << "image at\t" << _result << "msec\t"<< "threads" << numOfThreads;
 
     delete m_lensArguments;
 
     DestroyImage(imagew);
-    DestroyImageInfo(write_info);
+
     DestroyImage(image);
     DestroyImageInfo(read_info);
 

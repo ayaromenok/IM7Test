@@ -11,6 +11,7 @@ class YaOpenMPThread : public QThread
 public:
     void setOpenMP(QString value);
     void setTestImage(QString path){_testImage.clear(); _testImage.append(path);}
+    void setWriteToFile(bool value) {_isWriteToFile = value;}
 
 signals:
     void resultReady(const QString &s);
@@ -22,6 +23,7 @@ private:
     QString     _testImage;
     int         _result;
     int         _numOfThreads;
+    bool        _isWriteToFile;
 
 };
 
