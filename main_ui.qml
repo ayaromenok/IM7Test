@@ -160,7 +160,7 @@ ApplicationWindow {
         Page {
             WebView {
                     anchors.fill: parent
-                    url: "file:///data/data/org.qtproject.example.IM7TestUI/files/IM7TestInfo.html"
+                    url: "file:///data/data/info.yaromenok.IM7Test/files/IM7TestInfo.html"
                 }
         }
     }
