@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-import QtWebView 1.1
+// import QtWebView 1.1
 //import MagickTest 1.0
 
 ApplicationWindow {
@@ -158,10 +158,45 @@ ApplicationWindow {
         }
 
         Page {
-            WebView {
+/// \todo find a workarounf about WebView bug on android7/arm32
+//            WebView {
+//                    anchors.fill: parent
+//                    url: "file:///data/data/info.yaromenok.IM7Test/files/IM7TestInfo.html"
+//                }
+            ColumnLayout{
+                id:infoLayout
+                anchors.fill: parent
+                anchors.margins: 10
+                Layout.alignment: Qt.AlignTop
+
+                Text {
+                    //width: 240
                     anchors.fill: parent
-                    url: "file:///data/data/info.yaromenok.IM7Test/files/IM7TestInfo.html"
+                    //wrapMode: Text.WordWrap
+                    text: "<b>ImageMagick 7 Testfor Android</b> <br>
+                            <br>
+                            Demo application for project:<br>
+                            <br>
+                            https://github.com/ayaromenok/<br>Android_ImageMagick7<br>
+                            <br>
+                            - demonstrate a benefit of OpenMP build;<br>
+                            - can be used as performance test;<br>
+                            <br>
+                            Famous Lena image used as a source image, <br>
+                            while DistortImage fucntion from MagickCore<br>
+                            with BarrelDistortion method (with parameters<br>
+                            from LG G5 wide camera) used for performance<br>
+                            test.<br>
+                            <br>
+                            <br>
+                            ayaromenok at gmail.com"
+                    //font.family: "Helvetica"
+                    //font.pointSize: 10
+                    //color: "blue"
+                    focus: true
                 }
+            }
+
         }
     }
 
