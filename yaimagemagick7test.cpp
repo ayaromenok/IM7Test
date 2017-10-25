@@ -26,11 +26,15 @@ YaImageMagick7Test::getResources()
     QDir        dir;
     //QFile     file(":/res/testScene2048x2048.png");
     QFile       file(":/res/lena_hires.jpg");
+    QFile       oldFile;
     QString     testImageName("testImage.jpg");
 
     _testImagePath.clear();
 
     if (file.open(QIODevice::ReadOnly)){
+        oldFile.setFileName("./"+testImageName);
+        if (oldFile.remove())
+            qDebug() << "old file removed" << oldFile.fileName();
         file.copy(QString("./"+testImageName));
         _testImagePath.append(dir.currentPath());
         _testImagePath.append("/");
@@ -45,6 +49,9 @@ YaImageMagick7Test::getResources()
     }
     QFile       fileInfo(":/IM7TestInfo.html");
     if (fileInfo.open(QIODevice::ReadOnly)){
+        oldFile.setFileName(QString("./IM7TestInfo.html"));
+        if (oldFile.remove())
+            qDebug() << "old file removed" << oldFile.fileName();
         fileInfo.copy(QString("./IM7TestInfo.html"));
         fileInfo.close();
 
