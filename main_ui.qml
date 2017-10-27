@@ -182,14 +182,14 @@ ApplicationWindow {
                             - demonstrate a benefit of OpenMP build;<br>
                             - can be used as performance test;<br>
                             <br>
-                            Famous Lena image used as a source image, <br>
-                            while DistortImage fucntion from MagickCore<br>
-                            with BarrelDistortion method (with parameters<br>
-                            from LG G5 wide camera) used for performance<br>
-                            test.<br>
+                            Photo of wind generators in Low Austria used<br>
+                            as a source image, while <b>DistortImage</b> fucntion<br>
+                            from <b>MagickCore</b> with <b>BarrelDistortion</b> method<br>
+                            (with parameters from LG G5 wide camera) used<br>
+                            for performance test.<br>
                             <br>
                             <br>
-                            ayaromenok at gmail.com"
+                            contact author: ayaromenok at gmail.com"
                     //font.family: "Helvetica"
                     //font.pointSize: 10
                     //color: "blue"

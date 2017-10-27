@@ -25,7 +25,7 @@ YaImageMagick7Test::getResources()
 {
     QDir        dir;
     //QFile     file(":/res/testScene2048x2048.png");
-    QFile       file(":/res/lena_hires.jpg");
+    QFile       file(":/res/20171026_093526_2048.jpg");
     QFile       oldFile;
     QString     testImageName("testImage.jpg");
 
