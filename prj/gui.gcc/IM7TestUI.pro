@@ -1,8 +1,7 @@
-QT -= gui
-
-TARGET = IM7TestClang
+QT += quick
+TARGET = "ImgMagick7_Test"
 include(../files.pri)
-SOURCES += ../../main.cpp
+SOURCES += ../../main_ui.cpp
 
 IM7ANDROID = ../../../Android_ImageMagick7
 android {
@@ -44,7 +43,7 @@ android {
         message("Android/arm")
     }
     contains(ANDROID_TARGET_ARCH,mips) {
-        message("Android/mips")
+        message("Android/mps")
     }
     contains(ANDROID_TARGET_ARCH,mips64) {
         message("Android/mips64")
@@ -57,4 +56,5 @@ linux:!android {
     LIBS += -L/usr/local/lib
     LIBS += -lMagickCore-7.Q16HDRI -lMagickWand-7.Q16HDRI
 }
+
 

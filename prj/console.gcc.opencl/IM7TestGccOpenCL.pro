@@ -2,6 +2,7 @@ QT -= gui
 
 TARGET = IM7TestGccOpenCL
 include(../files.pri)
+SOURCES += ../../main.cpp
 
 IM7ANDROID = ../../../Android_ImageMagick7
 android {
