@@ -125,8 +125,11 @@ YaImageMagick7Test::testCore()
     _imgHeight = image->rows;
 
     QTime t;
+    //FilterType filter(Magick::l);
     t.start();
-    imagew = IntegralRotateImage(image,1,exception);
+    //imagew = IntegralRotateImage(image,1,exception);
+    //imagew = ResizeImage(image, 577, 277, LanczosFilter, exception);
+    imagew = BlurImage(image,150,2.5,exception);
     _testResult = t.elapsed();
 
     qDebug() << "\nresult:" << _testResult << "msec\n";
