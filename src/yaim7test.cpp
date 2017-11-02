@@ -44,7 +44,18 @@ YaIM7Test::getResources()
 void
 YaIM7Test::removeResources()
 {
+    QDir    dir;
+    QFile   file;
     qDebug() << "remove resources here:" << _resList;
+
+    for (int i=0; i<_resList.size(); i++){
+        file.setFileName("./"+_resList.at(i));
+        if(file.remove())
+            qDebug() << "removed:" << _resList.at(i);
+        else
+            qDebug() << "can't remove:" << _resList.at(i);
+    }
+    dir.remove("res");
 }
 
 bool
