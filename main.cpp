@@ -1,7 +1,8 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include "yaprogramversion.h"
-#include "yaimagemagick7test.h"
+#include "src/yaim7test.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -9,12 +10,12 @@ int main(int argc, char *argv[])
     qDebug() << "ImageMagick 7 test app/console";
 
     YaProgramVersion pv;
-    pv.toConsole(false);
+    pv.toConsole(true);
 
-    YaImageMagick7Test imt;
+    YaIM7Test imt;
     imt.getResources();
-    imt.testCore();
-    imt.testWand();
+    imt.testCore(true);
+    imt.testWand(true);
     imt.removeResources();
 
     return a.exec();

@@ -11,11 +11,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += ../../yaprogramversion.cpp \
     ../../yaimagemagick7test.cpp \
-    ../../yaopenmpthread.cpp
+    ../../yaopenmpthread.cpp \
+    ../../src/yaim7test.cpp
+
 RESOURCES += \
     ../../resources.qrc
 
 HEADERS += \
     ../../yaprogramversion.h \
     ../../yaimagemagick7test.h \
-    ../../yaopenmpthread.h
+    ../../yaopenmpthread.h \
+    ../../src/yaim7test.h
