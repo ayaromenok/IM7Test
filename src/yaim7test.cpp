@@ -7,10 +7,11 @@
 #include <MagickCore/MagickCore.h>
 #include <MagickWand/MagickWand.h>
 
-YaIM7Test::YaIM7Test(bool isUI)
+YaIM7Test::YaIM7Test(bool isUI, int maxNumOfThreads)
 {
     _isUI = isUI;
-    qDebug() << "UI:" << _isUI;
+    _maxNumOfThreads = maxNumOfThreads;
+    qDebug() << "UI:" << _isUI << "max # of threads" << _maxNumOfThreads;
 }
 
 YaIM7Test::~YaIM7Test()
@@ -41,6 +42,13 @@ YaIM7Test::getResources()
                 qDebug() << "can't extract:" << _resList.at(i);
         }
     }
+    _testList.append(QString(_resList.at(0)).replace(0, 4, "./res/core_"));
+    _testList.append(QString(_resList.at(0)).replace(0, 4, "./res/wand_"));
+    _testList.append(QString(_resList.at(0)).replace(0, 4, "./res/opencl_"));
+    for (int i=0; i<=_maxNumOfThreads; i++)     // 0 is Auto + # of threads
+        _testList.append(QString(_resList.at(0)).replace(0, 4,
+                                      ("./res/openmp"+QString::number(i)+"_")));
+
 }
 
 void
@@ -56,6 +64,13 @@ YaIM7Test::removeResources()
             qDebug() << "removed:" << _resList.at(i);
         else
             qDebug() << "can't remove:" << _resList.at(i);
+    }
+    for (int i=0; i<_testList.size(); i++){
+        file.setFileName("./"+_testList.at(i));
+        if(file.remove())
+            qDebug() << "removed:" << _testList.at(i);
+        else
+            qDebug() << "can't remove:" << _testList.at(i);
     }
     dir.remove("res");
 }
@@ -76,11 +91,25 @@ YaIM7Test::testCore(bool writeToFile)
     CopyMagickString(read_info->filename, _resList.at(0).toLatin1().constData(),
                      MaxTextExtent);
     image = ReadImage(read_info,exception);t.start();
+
+
+    //just a simple rotate
     imagew = IntegralRotateImage(image,1,exception);
+
     _result = t.elapsed();
     qDebug() << "core: image rotated:" << _result << "msec";
-    if (writeToFile)
-        qDebug() << "write later to file";
+    if (writeToFile) {
+        ImageInfo *write_info;
+        MagickBooleanType status;
+
+        write_info=CloneImageInfo(read_info);
+        CopyMagickString(write_info->filename,
+                         _testList.at(0).toLatin1().constData(), MaxTextExtent);
+        status=WriteImages(write_info, imagew, write_info->filename,exception);
+        if (status == MagickFalse)
+            qCritical() << "can't write to" << _testList.at(0);
+        DestroyImageInfo(write_info);
+    }
     DestroyImage(imagew);
     DestroyImage(image);
     DestroyImageInfo(read_info);
@@ -103,13 +132,22 @@ YaIM7Test::testWand(bool writeToFile)
 
     magick_wand = NewMagickWand();
     status = MagickReadImage(magick_wand,_resList.at(0).toLatin1());
+    if (status == MagickFalse)
+        qCritical() <<"can't read from" << _resList.at(0);
+
     QTime t;
     t.start();
+
+    //just simple rotate. after caching should be the same, as core result
     MagickRotateImage(magick_wand,background,90);
+
     _result = t.elapsed();
     qDebug() << "wand: image rotated:"<<_result << "msec";
-    if (writeToFile)
-        qDebug() << "write later to file";
+    if (writeToFile) {
+        status = MagickWriteImage(magick_wand, _testList.at(1).toLatin1());
+        if (status == MagickFalse)
+            qCritical() << "can't write to" << _testList.at(1);
+    }
 
     background = DestroyPixelWand(background);
     magick_wand = DestroyMagickWand(magick_wand);

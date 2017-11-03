@@ -7,7 +7,7 @@ class YaIM7Test : public QObject
 {
     Q_OBJECT
 public:
-    explicit YaIM7Test(bool isUI = false);
+    explicit YaIM7Test(bool isUI = false, int maxNumOfThreads = 20);
     ~YaIM7Test();
     void    getResources();
     void    removeResources();
@@ -23,7 +23,9 @@ private:
     bool            getResourcesList();
     bool            _isUI;
     int             _result; //msec, enough for few hundred seconds
+    int             _maxNumOfThreads;
     QStringList     _resList;
+    QStringList     _testList;
 };
 
 #endif // YAIM7TEST_H
