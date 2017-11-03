@@ -43,13 +43,10 @@ YaIM7Test::getResources()
                 qDebug() << "can't extract:" << _resList.at(i);
         }
     }
-    _testList.append(QString(_resList.at(0)).replace(0, 4, "./res/core_"));
-    _testList.append(QString(_resList.at(0)).replace(0, 4, "./res/wand_"));
-    _testList.append(QString(_resList.at(0)).replace(0, 4, "./res/opencl_"));
-    for (int i=0; i<=_maxNumOfThreads; i++)     // 0 is Auto + # of threads
-        _testList.append(QString(_resList.at(0)).replace(0, 4,
-                                      ("./res/openmp"+QString::number(i)+"_")));
-
+// looks like this envvar not working
+//    QString clCacheDir(dir.absolutePath());
+//    clCacheDir.append("/clcache");
+//    qputenv("IMAGEMAGICK_OPENCL_CACHE_DIR",clCacheDir.toLatin1());
 }
 
 void
@@ -103,12 +100,14 @@ YaIM7Test::testCore(bool writeToFile)
         ImageInfo *write_info;
         MagickBooleanType status;
 
+        _testList.append(QString(_resList.at(0)).replace(0, 4, "./res/core_"));
+
         write_info=CloneImageInfo(read_info);
         CopyMagickString(write_info->filename,
-                         _testList.at(0).toLatin1().constData(), MaxTextExtent);
+                         _testList.last().toLatin1().constData(), MaxTextExtent);
         status=WriteImages(write_info, imagew, write_info->filename,exception);
         if (status == MagickFalse)
-            qCritical() << "can't write to" << _testList.at(0);
+            qCritical() << "can't write to" << _testList.last();
         DestroyImageInfo(write_info);
     }
     DestroyImage(imagew);
@@ -145,9 +144,10 @@ YaIM7Test::testWand(bool writeToFile)
     _result = t.elapsed();
     qDebug() << "wand: image rotated:"<<_result << "msec";
     if (writeToFile) {
-        status = MagickWriteImage(magick_wand, _testList.at(1).toLatin1());
+        _testList.append(QString(_resList.at(0)).replace(0, 4, "./res/wand_"));
+        status = MagickWriteImage(magick_wand, _testList.last().toLatin1());
         if (status == MagickFalse)
-            qCritical() << "can't write to" << _testList.at(1);
+            qCritical() << "can't write to" << _testList.last();
     }
 
     background = DestroyPixelWand(background);
@@ -164,7 +164,7 @@ YaIM7Test::testOpenMP(int numOfThreads, bool writeToFile)
     qDebug() << "testOpenMP, #:" << numOfThreads
              <<", write to file:" << writeToFile;
 
-    testOpenXX(numOfThreads, false, false, false);
+    testOpenXX(numOfThreads, false, false, writeToFile);
 
     return _result;
 }
@@ -174,7 +174,7 @@ YaIM7Test::testOpenCL(bool isGPU, bool writeToFile)
 {
     qDebug() << "testOpenCL, GPU#:" << isGPU
              <<", write to file:" << writeToFile;
-    testOpenXX(0, true, isGPU, false);
+    testOpenXX(0, true, isGPU, writeToFile);
     return _result;
 }
 int
@@ -190,11 +190,11 @@ YaIM7Test::testOpenXX(int numOfThreads, bool useOpenCL, bool useGPU,
     if (useOpenCL){
         if (useGPU){
             qputenv("MAGICK_OCL_DEVICE","GPU");
-            device.append("OpenCL/GPU");
+            device.append("OpenCL_GPU");
         }
         else {
             qputenv("MAGICK_OCL_DEVICE","CPU");
-            device.append("OpenCL/CPU");
+            device.append("OpenCL_CPU");
         }
     }
     else {
@@ -202,10 +202,10 @@ YaIM7Test::testOpenXX(int numOfThreads, bool useOpenCL, bool useGPU,
         if (numOfThreads > 0) //0 is auto in term of app(for magick 0 is equal to 1)
         {
             qputenv("MAGICK_THREAD_LIMIT",QString::number(numOfThreads).toLatin1());
-            device.append("OpenMP/");
+            device.append("OpenMP_");
             device.append(QString::number(numOfThreads));
         } else {
-            device.append("OpenMP/Auto");
+            device.append("OpenMP_Auto");
         }
     }
 
@@ -228,12 +228,15 @@ YaIM7Test::testOpenXX(int numOfThreads, bool useOpenCL, bool useGPU,
         ImageInfo *write_info;
         MagickBooleanType status;
 
+        _testList.append(QString(_resList.at(0)).replace(0, 4,
+                                                 ("./res/core_")+device+"_"));
+
         write_info=CloneImageInfo(read_info);
         CopyMagickString(write_info->filename,
-                         _testList.at(0).toLatin1().constData(), MaxTextExtent);
+                         _testList.last().toLatin1().constData(), MaxTextExtent);
         status=WriteImages(write_info, imagew, write_info->filename,exception);
         if (status == MagickFalse)
-            qCritical() << "can't write to" << _testList.at(0);
+            qCritical() << "can't write to" << _testList.last();
         DestroyImageInfo(write_info);
     }
     DestroyImage(imagew);
