@@ -13,8 +13,10 @@ public:
     void    removeResources();
     bool    testCore(bool writeToFile = false);
     bool    testWand(bool writeToFile = false);
-    int     testOpenMP(int numOfThreads, bool writeToFile = false);
-    int     testOpenCL(bool useGPU, bool writeToFile = false);
+    int     testOpenMP(int numOfThreads = 0, bool writeToFile = false);
+    int     testOpenCL(bool isGPU = true, bool writeToFile = false);
+    int     testOpenXX(int numOfThreads, bool useOpenCL, bool useGPU,
+                       bool writeToFile = false);
 
 signals:
 

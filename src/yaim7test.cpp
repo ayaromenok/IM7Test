@@ -163,23 +163,89 @@ YaIM7Test::testOpenMP(int numOfThreads, bool writeToFile)
 {
     qDebug() << "testOpenMP, #:" << numOfThreads
              <<", write to file:" << writeToFile;
-    if (0 == numOfThreads)
-        _result = 42;
-    else
-        _result = 24;
+
+    testOpenXX(numOfThreads, false, false, false);
+
     return _result;
 }
 
 int
-YaIM7Test::testOpenCL(bool useGPU, bool writeToFile)
+YaIM7Test::testOpenCL(bool isGPU, bool writeToFile)
 {
-    qDebug() << "testOpenCL, useGPU:" << useGPU
+    qDebug() << "testOpenCL, GPU#:" << isGPU
              <<", write to file:" << writeToFile;
+    testOpenXX(0, true, isGPU, false);
+    return _result;
+}
+int
+YaIM7Test::testOpenXX(int numOfThreads, bool useOpenCL, bool useGPU,
+                      bool writeToFile)
+{
+    Image *image, *imagew;
+    ImageInfo *read_info;
+    ExceptionInfo *exception;
+    QTime t;
+    QString device;
 
-    if (useGPU)
-        _result = 42;
-    else
-        _result = 24;
+    if (useOpenCL){
+        if (useGPU){
+            qputenv("MAGICK_OCL_DEVICE","GPU");
+            device.append("OpenCL/GPU");
+        }
+        else {
+            qputenv("MAGICK_OCL_DEVICE","CPU");
+            device.append("OpenCL/CPU");
+        }
+    }
+    else {
+        qputenv("MAGICK_OCL_DEVICE","OFF");
+        if (numOfThreads > 0) //0 is auto in term of app(for magick 0 is equal to 1)
+        {
+            qputenv("MAGICK_THREAD_LIMIT",QString::number(numOfThreads).toLatin1());
+            device.append("OpenMP/");
+            device.append(QString::number(numOfThreads));
+        } else {
+            device.append("OpenMP/Auto");
+        }
+    }
+
+    MagickCoreGenesis((char *) NULL,MagickFalse);
+
+    exception = AcquireExceptionInfo();
+    read_info=CloneImageInfo(NULL);
+    CopyMagickString(read_info->filename, _resList.at(0).toLatin1().constData(),
+                     MaxTextExtent);
+    image = ReadImage(read_info,exception);
+    //blur supported by both OpenMP and OpenCL
+
+    t.start();
+    imagew = BlurImage(image,100,2.5,exception);
+    _result = t.elapsed();
+
+    qDebug() << "image blured on device:"<< device << ":\t" << _result << "msec";
+
+    if (writeToFile) {
+        ImageInfo *write_info;
+        MagickBooleanType status;
+
+        write_info=CloneImageInfo(read_info);
+        CopyMagickString(write_info->filename,
+                         _testList.at(0).toLatin1().constData(), MaxTextExtent);
+        status=WriteImages(write_info, imagew, write_info->filename,exception);
+        if (status == MagickFalse)
+            qCritical() << "can't write to" << _testList.at(0);
+        DestroyImageInfo(write_info);
+    }
+    DestroyImage(imagew);
+    DestroyImage(image);
+    DestroyImageInfo(read_info);
+    DestroyExceptionInfo(exception);
+
+    MagickCoreTerminus();
+
+    qunsetenv("MAGICK_THREAD_LIMIT");
+    qunsetenv("MAGICK_OCL_DEVICE");
+
     return _result;
 }
 
