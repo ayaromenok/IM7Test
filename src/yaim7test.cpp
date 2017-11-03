@@ -27,7 +27,8 @@ YaIM7Test::getResources()
     _resList.clear();
     if (getResourcesList())
     {
-        qDebug() << "extract resources here"<<_resList;
+        qDebug() << "working dir" << dir.absolutePath();
+        qDebug() << "extract resources"<<_resList;
         dir.mkdir("res");
         for (int i=0; i<_resList.size(); i++){
             file.setFileName("./"+_resList.at(i));
@@ -162,8 +163,23 @@ YaIM7Test::testOpenMP(int numOfThreads, bool writeToFile)
 {
     qDebug() << "testOpenMP, #:" << numOfThreads
              <<", write to file:" << writeToFile;
-    if (numOfThreads >=0)
+    if (0 == numOfThreads)
         _result = 42;
+    else
+        _result = 24;
+    return _result;
+}
+
+int
+YaIM7Test::testOpenCL(bool useGPU, bool writeToFile)
+{
+    qDebug() << "testOpenCL, useGPU:" << useGPU
+             <<", write to file:" << writeToFile;
+
+    if (useGPU)
+        _result = 42;
+    else
+        _result = 24;
     return _result;
 }
 

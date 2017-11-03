@@ -14,6 +14,7 @@ public:
     bool    testCore(bool writeToFile = false);
     bool    testWand(bool writeToFile = false);
     int     testOpenMP(int numOfThreads, bool writeToFile = false);
+    int     testOpenCL(bool useGPU, bool writeToFile = false);
 
 signals:
 
