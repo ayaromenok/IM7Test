@@ -78,7 +78,9 @@ YaIM7Test::testCore(bool writeToFile)
     image = ReadImage(read_info,exception);t.start();
     imagew = IntegralRotateImage(image,1,exception);
     _result = t.elapsed();
-    qDebug() << "image rotated:" << _result << "msec";
+    qDebug() << "core: image rotated:" << _result << "msec";
+    if (writeToFile)
+        qDebug() << "write later to file";
     DestroyImage(imagew);
     DestroyImage(image);
     DestroyImageInfo(read_info);
@@ -93,6 +95,27 @@ bool
 YaIM7Test::testWand(bool writeToFile)
 {
     qDebug() << "testWand, write to file:" << writeToFile;
+    MagickWand *magick_wand;
+    PixelWand *background = NewPixelWand();
+    MagickBooleanType status;
+
+    MagickWandGenesis();
+
+    magick_wand = NewMagickWand();
+    status = MagickReadImage(magick_wand,_resList.at(0).toLatin1());
+    QTime t;
+    t.start();
+    MagickRotateImage(magick_wand,background,90);
+    _result = t.elapsed();
+    qDebug() << "wand: image rotated:"<<_result << "msec";
+    if (writeToFile)
+        qDebug() << "write later to file";
+
+    background = DestroyPixelWand(background);
+    magick_wand = DestroyMagickWand(magick_wand);
+
+    MagickWandTerminus();
+
     return true;
 }
 
