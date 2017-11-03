@@ -4,6 +4,8 @@
 #include <QDir>
 #include <QFile>
 #include <QTime>
+#include <MagickCore/MagickCore.h>
+#include <MagickWand/MagickWand.h>
 
 YaIM7Test::YaIM7Test(bool isUI)
 {
@@ -62,6 +64,28 @@ bool
 YaIM7Test::testCore(bool writeToFile)
 {
     qDebug() << "testCore, write to file:" << writeToFile;
+    Image *image, *imagew;
+    ImageInfo *read_info;
+    ExceptionInfo *exception;
+    QTime t;
+
+    MagickCoreGenesis((char *) NULL,MagickFalse);
+
+    exception = AcquireExceptionInfo();
+    read_info=CloneImageInfo(NULL);
+    CopyMagickString(read_info->filename, _resList.at(0).toLatin1().constData(),
+                     MaxTextExtent);
+    image = ReadImage(read_info,exception);t.start();
+    imagew = IntegralRotateImage(image,1,exception);
+    _result = t.elapsed();
+    qDebug() << "image rotated:" << _result << "msec";
+    DestroyImage(imagew);
+    DestroyImage(image);
+    DestroyImageInfo(read_info);
+    DestroyExceptionInfo(exception);
+
+    MagickCoreTerminus();
+
     return true;
 }
 
@@ -70,6 +94,16 @@ YaIM7Test::testWand(bool writeToFile)
 {
     qDebug() << "testWand, write to file:" << writeToFile;
     return true;
+}
+
+int
+YaIM7Test::testOpenMP(int numOfThreads, bool writeToFile)
+{
+    qDebug() << "testOpenMP, #:" << numOfThreads
+             <<", write to file:" << writeToFile;
+    if (numOfThreads >=0)
+        _result = 42;
+    return _result;
 }
 
 bool
