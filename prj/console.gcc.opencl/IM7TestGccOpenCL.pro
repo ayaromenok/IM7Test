@@ -1,12 +1,12 @@
 QT -= gui
 
-TARGET = IM7TestGccOpenCL
+TARGET = 04_IM7TestGccOpenCL
 include(../files.pri)
 SOURCES += ../../main.cpp
 
 IM7ANDROID = ../../../Android_ImageMagick7
 android {
-    INCLUDEPATH +=$${IM7ANDROID}/jni/ImageMagick-7.0.5-2
+    INCLUDEPATH +=$${IM7ANDROID}/jni/ImageMagick
 #arm64-v8a  armeabi  armeabi-v7a  mips  mips64  x86  x86_64
     contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         message("Android/armv7")
@@ -14,7 +14,8 @@ android {
         LIBS += -L$${LIBPATHARMV7}
         ANDROID_EXTRA_LIBS = \
             $${LIBPATHARMV7}/libMagickCore-7.so \
-            $${LIBPATHARMV7}/libMagickWand-7.so
+            $${LIBPATHARMV7}/libMagickWand-7.so \
+            $${LIBPATHARMV7}/libOpenCL.so
     }
     contains(ANDROID_TARGET_ARCH,x86) {
         message("Android/x86 - not supported")
@@ -44,5 +45,16 @@ linux:!android {
     LIBS += -L/usr/local/lib
     LIBS += -lMagickCore-7.Q16HDRI -lMagickWand-7.Q16HDRI
 }
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 

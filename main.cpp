@@ -18,6 +18,9 @@ int main(int argc, char *argv[])
     imt.testWand(true);
     imt.testOpenMP(0, true);
     imt.testOpenMP(1, true);
+    imt.testOpenMP(2, true);
+    imt.testOpenMP(4, true);
+    imt.testOpenMP(8, true);
     imt.testOpenCL(true, true);
     imt.testOpenCL(false, true);
     //imt.removeResources(); //\todo switch ON later
