@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     imt.getResources();
     imt.testCore(true);
     imt.testWand(true);
+    imt.testOpenMP(0, true);// warm up
     imt.testOpenMP(0, true);
     imt.testOpenMP(1, true);
     imt.testOpenMP(2, true);
