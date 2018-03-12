@@ -1,0 +1,13 @@
+Samsung Galaxy S8/Enyxnox8895 (4xEnynis M2@2.31GHz+4xCortex-A53@1.69MHz))
+
+imagew = BlurImage(image,256,4.5,exception);
+
+            NDK10/gcc 4.9           ndk10/clang
+            arm32       arm64       arm32       arm64
+OMP_Auto    6260        3934        5963        3810
+OMP_1      27914       16665       24754       13185 
+OMP_2      14012        8377       12449        6618
+OMP_4       7209        4278        6302        3533
+OMP_8       6294        4029        6258        3770
+OCL_GPU     6384        4082        6063        3881
+OCL_CPU     6339        4062        6139        3874
