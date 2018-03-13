@@ -14,16 +14,18 @@ int main(int argc, char *argv[])
 
     YaIM7Test imt;
     imt.getResources();
-    imt.testCore(true);
-    imt.testWand(true);
-    imt.testOpenMP(0, true);// warm up
-    imt.testOpenMP(0, true);
-    imt.testOpenMP(1, true);
-    imt.testOpenMP(2, true);
-    imt.testOpenMP(4, true);
-    imt.testOpenMP(8, true);
-    imt.testOpenCL(true, true);
-    imt.testOpenCL(false, true);
+    //don't save results for test
+    imt.testCore(false);
+    imt.testWand(false);
+    imt.testOpenMP(0, false);// warm up
+    imt.testOpenMP(0, false);
+    imt.testOpenMP(1, false);
+    imt.testOpenMP(2, false);
+    imt.testOpenMP(4, false);
+    imt.testOpenMP(8, false);
+    //disable OpenCL test too
+    //imt.testOpenCL(true, true);
+    //imt.testOpenCL(false, true);
     //imt.removeResources(); //\todo switch ON later
 
     return a.exec();
