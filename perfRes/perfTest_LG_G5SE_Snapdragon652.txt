@@ -1,0 +1,13 @@
+LG G5SE Snapdragon 652 (4xCortex-A72@1.8GHz + 4xCortex-A53@1.2GHz)
+
+*result with clang quite strange
+
+imagew = BlurImage(image,256,4.5,exception);
+
+            NDK15/gcc 4.9           ndk15/clang
+            arm32                   arm32 
+OMP_Auto     8032                   13527
+OMP_1       30287                   23387
+OMP_2       15475                   11820
+OMP_4        9813                   11380
+OMP_8        8167                   11054

@@ -1,0 +1,12 @@
+NVidia Shield Tegra K1 (4xCortex-A15@2.2GHz)
+
+imagew = BlurImage(image,256,4.5,exception);
+
+            NDK15/gcc 4.9           ndk15/clang
+            arm32                   arm32 
+OMP_Auto     8817                   8323
+OMP_1       30271                  27808
+OMP_2       15380                  14071 
+OMP_4        8791                   8268
+-
+OMP_8        9134                   8099

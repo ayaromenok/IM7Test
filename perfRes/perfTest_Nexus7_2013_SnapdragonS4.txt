@@ -1,0 +1,12 @@
+Google Nexus 7/2013 Quallcom Snapdragon S4 Pro (4xKrait@1.5GHz)
+
+imagew = BlurImage(image,256,4.5,exception);
+
+            NDK15/gcc 4.9           ndk15/clang
+            arm32                   arm32 
+OMP_Auto    16919                   21035 
+OMP_1       65554                   80884  
+OMP_2       32293                   43264  
+OMP_4       16916                   21511 
+-
+OMP_8       17014                   21873 
