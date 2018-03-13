@@ -10,3 +10,12 @@ OMP_2       15380                  14071
 OMP_4        8791                   8268
 -
 OMP_8        9134                   8099
+
+            NDK15/gcc 4.9           ndk15/clang
+            arm32                   arm32 
+OMP_Auto                            6234
+OMP_1                              21238 
+OMP_2                              10970 
+OMP_4                               6453
+-   
+OMP_8                               6461   
