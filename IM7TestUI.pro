@@ -12,7 +12,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 IM7ANDROID = ../Android_ImageMagick7
 android {
-    INCLUDEPATH +=$${IM7ANDROID}/jni/ImageMagick-7.0.5-2
+    INCLUDEPATH +=$${IM7ANDROID}/jni/ImageMagick
 #arm64-v8a  armeabi  armeabi-v7a  mips  mips64  x86  x86_64
     contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         message("Android/armv7")
